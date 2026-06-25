@@ -11,7 +11,7 @@ jobs:
       - name: index.py --check passes on a fixture
         run: |
           mkdir -p changes/2026-01-01.01-fixture
-          printf -- '---\ndate: 2026-01-01\nslug: fixture\nsummary: x\noutcome: x\n---\n# x\n' \
+          printf -- '---\nsummary: x\n---\n# x\n' \
             > changes/2026-01-01.01-fixture/change.md
           python index.py --check
           rm -rf changes
@@ -22,8 +22,8 @@ jobs:
           sys.path.insert(0, ".")
           from index import parse_frontmatter
           for p in pathlib.Path("_templates").glob("*.md"):
-              if p.name == "release.md":
-                  continue  # release notes carry no frontmatter
+              if p.name in ("release.md", "plan.md"):
+                  continue  # release notes and plans carry no frontmatter
               assert parse_frontmatter(p.read_text()), p
           print("templates OK")
           PY
