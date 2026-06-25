@@ -4,6 +4,8 @@ Canonical source for a portable, agent-friendly planning convention: a two-axis
 model (`architecture/` truth home + `planning/changes/` bundles), a
 `check-planning` validator, lean frontmatter, and a Quick-path on-ramp.
 
+Source: <https://github.com/lesnik512/planning-convention>
+
 ## What's here
 
 - [`convention.md`](convention.md) — the portable convention prose (Quick path +

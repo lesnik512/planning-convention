@@ -36,10 +36,11 @@ the bundle frontmatter, and run `just check-planning` before pushing.
 
 ## Conventions
 
-> This is the portable convention. It is consumed by other repos from the
-> canonical source repo; see [`APPLY.md`](APPLY.md) to adopt or update it. A
-> consuming repo's change index (`just index`) and its "Other" pointers are
-> added per repo, not part of this portable core.
+> This is the portable convention, sourced from the canonical repo
+> [`lesnik512/planning-convention`](https://github.com/lesnik512/planning-convention)
+> (applied version in [`.convention-version`](.convention-version)). To update
+> it, run that repo's `APPLY.md` flow. The generated change index (`just index`)
+> and the `## Other` pointers below are repo-local.
 
 ### Two axes, never mixed
 

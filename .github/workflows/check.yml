@@ -22,6 +22,8 @@ jobs:
           sys.path.insert(0, ".")
           from index import parse_frontmatter
           for p in pathlib.Path("_templates").glob("*.md"):
+              if p.name == "release.md":
+                  continue  # release notes carry no frontmatter
               assert parse_frontmatter(p.read_text()), p
           print("templates OK")
           PY
