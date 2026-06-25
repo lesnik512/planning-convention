@@ -19,7 +19,7 @@ Source: <https://github.com/lesnik512/planning-convention>
 
 Point an agent (e.g. Claude Code) at [`APPLY.md`](APPLY.md) from the target repo:
 it copies the script + templates, merges the convention prose and the
-`justfile`/`CLAUDE.md` snippets, records the applied version in
+`Justfile`/`CLAUDE.md` snippets, records the applied version in
 `planning/.convention-version`, verifies with `just check-planning`, and opens a
 PR. Updating re-runs the same flow, applying only the CHANGELOG entries newer
 than the recorded version.

@@ -34,7 +34,7 @@ keeps its own page title/intro). Keep the target's repo-local sections (its
 
 Edit in place, don't overwrite:
 
-- **`justfile`**: ensure these recipes exist and match —
+- **`Justfile`**: ensure these recipes exist and match —
   ```
   index:
       uv run python planning/index.py
