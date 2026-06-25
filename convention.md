@@ -1,0 +1,108 @@
+# Planning convention
+
+The portable two-axis planning convention: `architecture/` (repo root) holds the
+living truth about what the system does **now**; `planning/changes/` records how
+it got there. This file is the canonical convention prose — adopt or update it in
+a repo via [`APPLY.md`](APPLY.md).
+
+## Quick path (start here)
+
+> The fast lane for making a change. The full reference is in
+> [Conventions](#conventions) below — read it only when this isn't enough.
+
+**1. Choose a lane — first matching rule wins:**
+
+1. Any of: needs design judgment · new file/module · public-API change ·
+   cross-cutting or multi-file · non-trivial test design → **Full**
+   (`design.md` + `plan.md`)
+2. Purely mechanical: typo · dep bump · linter/formatter/CI tweak ·
+   mechanical rename · single-line config → **Tiny** (no bundle, conventional
+   commit)
+3. Small-but-real, none of the above: ≲30 LOC net · ≤2 files · no new file ·
+   no public-API change · one straightforward test → **Lightweight**
+   (`change.md`)
+
+Ambiguous between two? Take the heavier. A `change.md` that outgrows its lane
+splits into `design.md` + `plan.md`.
+
+**2. Create the bundle** (Full / Lightweight only):
+`planning/changes/YYYY-MM-DD.NN-<slug>/`, where `.NN` is a zero-padded
+intra-day counter. Copy the matching template from
+[`_templates/`](_templates/).
+
+**3. Ship in the implementing PR:** hand-edit the affected
+`architecture/<capability>.md`, fill `outcome:` in
+the bundle frontmatter, and run `just check-planning` before pushing.
+
+## Conventions
+
+> This is the portable convention. It is consumed by other repos from the
+> canonical source repo; see [`APPLY.md`](APPLY.md) to adopt or update it. A
+> consuming repo's change index (`just index`) and its "Other" pointers are
+> added per repo, not part of this portable core.
+
+### Two axes, never mixed
+
+- **`architecture/` (repo root) — the present.** One file per capability,
+  living prose, updated in the same PR that ships the change. The truth home.
+- **`planning/changes/` — the past-and-pending.** One folder per change,
+  kept in place after ship.
+
+A change **promotes** its conclusions into the affected
+`architecture/<capability>.md` by hand **in the implementing PR, alongside the
+code** — the edit rides in the same diff and is reviewed with it, never applied
+as a separate post-merge step. That hand-edit is what keeps `architecture/`
+true; the bundle stays in `changes/` as the *why*.
+
+### Change bundles
+
+A change is a folder `changes/YYYY-MM-DD.NN-<slug>/`:
+
+- `YYYY-MM-DD` — proposal date; `.NN` — zero-padded intra-day counter
+  (`.01`, `.02`, …) that breaks same-date ties so the timeline sorts stably.
+- `<slug>` — kebab-case description, not a story ID.
+
+`summary` is written when the change is created (it is the change's
+one-liner). The implementing PR fills `outcome`
+**in the branch**, alongside the code and the `architecture/`
+promotion — no post-merge bookkeeping, no folder move.
+
+### Three lanes
+
+| Lane | Artifacts | Use when |
+|------|-----------|----------|
+| **Full** | `design.md` + `plan.md` | design judgment; new file/module; public-API change; cross-cutting/multi-file; non-trivial test design |
+| **Lightweight** | `change.md` | small-but-real: ≲30 LOC net, ≤2 files, no new file, no public-API change, single straightforward test |
+| **Tiny** | none — conventional commit | typo, dep bump, linter/formatter/CI tweak, mechanical rename, single-line config |
+
+Heavier lane wins on ambiguity. A `change.md` that outgrows its lane splits
+into `design.md` + `plan.md`.
+
+### Artifacts at a glance
+
+- **`design.md`** — the spec: the *thinking* (why, design, trade-offs, scope).
+- **`plan.md`** — the plan: the *sequencing* (the executor's task checklist).
+- **`change.md`** — both, condensed, for the lightweight lane.
+- **`releases/<semver>.md`** — per-release user-facing notes.
+- **`audits/<date>-<slug>.md`** — findings from a code/docs/bug-hunt sweep;
+  spawns fix changes.
+- **`retros/<date>-<slug>.md`** — what we learned after a body of work.
+- **`deferred.md`** — real-but-unscheduled items, each with a revisit trigger.
+- **`decisions/<YYYY-MM-DD>-<slug>.md`** — one file per design decision taken
+  (especially options *rejected*), each with a revisit trigger; listed by
+  `just index`.
+
+Templates live in [`_templates/`](_templates/).
+
+### Frontmatter
+
+`design.md` / `change.md`: `date`, `slug`, `summary` (single line), `outcome`.
+`plan.md`: `date`, `slug`, `spec`. `decisions/*.md`: `status`
+(accepted|superseded), `date`, `slug`, `summary`, `supersedes`, `superseded_by`.
+Files in `architecture/` carry **no** frontmatter — living prose, dated by git.
+
+**`outcome`** is filled at ship time: one line, ~1–3 sentences (≤ ~300 chars),
+stating the realized result — what shipped and its effect (deviations from the
+plan included), written so a future reader grasps the consequence without
+opening the diff. It is distinct from `summary`, which is the pre-ship intent
+one-liner.
