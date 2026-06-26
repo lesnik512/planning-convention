@@ -3,6 +3,18 @@
 Versions are git tags. A consuming repo records the version it last applied in
 `planning/.convention-version`; on update, apply every entry newer than that.
 
+## 1.1.0 — 2026-06-26
+
+Adds the **glossary** artifact to the `architecture/` axis:
+
+- **`architecture/glossary.md`**: a single ubiquitous-language page beside the
+  capability files — living prose, no frontmatter, authored lazily. Defines the
+  domain terms (term · definition · `_Avoid_:`) that code, specs, and capability
+  pages share; promoted in the same PR that introduces or sharpens a term.
+- **`_templates/glossary.md`**: starting point for the page; lands in consumers
+  via the §1 verbatim template copy.
+- No validator change — `index.py` covers `planning/`, not `architecture/`.
+
 ## 1.0.0 — 2026-06-25
 
 Initial extraction of the convention into this canonical repo. Baseline:

@@ -60,7 +60,8 @@ describes if §§1–3 did not already cover it (most land via the §1 verbatim 
 Create if absent: `planning/{changes,decisions,releases}/`, `planning/deferred.md`
 (one-line header), and `architecture/README.md` stating the promotion rule (one
 file per capability; shipping a change hand-edits the matching file in the same
-PR). The repo authors its own capability files.
+PR). The repo authors its own capability files and `architecture/glossary.md`
+lazily — when the first capability or term is worth pinning down.
 
 ## 6. Record, verify, open a PR
 

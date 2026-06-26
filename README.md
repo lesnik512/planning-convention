@@ -11,7 +11,8 @@ Source: <https://github.com/lesnik512/planning-convention>
 - [`convention.md`](convention.md) — the portable convention prose (Quick path +
   Conventions).
 - [`index.py`](index.py) — the validator + index generator.
-- [`_templates/`](_templates/) — change · design · plan · decision · release.
+- [`_templates/`](_templates/) — change · design · plan · decision · release ·
+  glossary.
 - [`APPLY.md`](APPLY.md) — how an agent applies/updates this into a repo.
 - [`CHANGELOG.md`](CHANGELOG.md) — versioned deltas (git tags are the versions).
 
