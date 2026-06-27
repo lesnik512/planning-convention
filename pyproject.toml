@@ -1,0 +1,60 @@
+[project]
+name = "planning-convention"
+version = "0"
+description = "Portable, agent-friendly planning convention: validator + index generator"
+readme = "README.md"
+requires-python = ">=3.10,<4"
+authors = [
+    { name = "Artur Shiriev", email = "me@shiriev.ru" },
+]
+license = "MIT License"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+lint = [
+    "ruff",
+    "ty",
+    "eof-fixer",
+]
+
+[tool.ruff]
+fix = true
+unsafe-fixes = true
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D1", # allow missing docstrings
+    "FBT", # allow boolean args
+    "INP", # ignore flake8-no-pep420
+    "B008", # function-call-in-default-argument
+    "ANN204", # no typings for __init__
+    "RUF001", # allow cyrillic letters
+    "D203", # "one-blank-line-before-class" conflicting with D211
+    "D213", # "multi-line-summary-second-line" conflicting with D212
+    "COM812", # flake8-commas "Trailing comma missing"
+    "ISC001", # flake8-implicit-str-concat
+    "S105", # Possible hardcoded password
+]
+isort.lines-after-imports = 2
+isort.no-lines-before = ["standard-library", "local-folder"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*.py" = [
+    "S101", # allow asserts
+    "PLR2004", # allow magic-value comparisons (exit codes 0/1) in assertions
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-report term-missing --cov-fail-under=100"
+
+[tool.coverage.report]
+exclude_also = [
+    "if typing.TYPE_CHECKING:",
+]
