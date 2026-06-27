@@ -3,6 +3,15 @@
 Versions are git tags. A consuming repo records the version it last applied in
 `planning/.convention-version`; on update, apply every entry newer than that.
 
+## 1.1.1 — 2026-06-27
+
+Internal: `index.py` now accepts an explicit `root` path
+(`load_bundles`/`load_decisions`/`check`) and `main(argv=None, root=None)`, for
+testability — no behavior change (identical stdout, violation strings, and exit
+codes). The canonical repo gains a `pytest` suite at 100% coverage, a
+`pyproject.toml` (uv/ruff/ty), and a `Justfile`. No consumer-facing change
+beyond the verbatim `index.py` copy.
+
 ## 1.1.0 — 2026-06-26
 
 Adds the **glossary** artifact to the `architecture/` axis:

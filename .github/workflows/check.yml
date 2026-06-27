@@ -1,29 +1,36 @@
-name: check
-on: [push, pull_request]
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  smoke:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: index.py --check passes on a fixture
-        run: |
-          mkdir -p changes/2026-01-01.01-fixture
-          printf -- '---\nsummary: x\n---\n# x\n' \
-            > changes/2026-01-01.01-fixture/change.md
-          python index.py --check
-          rm -rf changes
-      - name: templates parse as frontmatter
-        run: |
-          python - <<'PY'
-          import pathlib, sys
-          sys.path.insert(0, ".")
-          from index import parse_frontmatter
-          for p in pathlib.Path("_templates").glob("*.md"):
-              if p.name in ("release.md", "plan.md", "glossary.md"):
-                  continue  # release notes, plans, and glossaries carry no frontmatter
-              assert parse_frontmatter(p.read_text()), p
-          print("templates OK")
-          PY
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v8.2.0
+      - run: uv python install 3.10
+      - run: |
+          uv sync --all-extras --all-groups
+          uv run ruff format . --check
+          uv run ruff check . --no-fix
+          uv run ty check
+
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v8.2.0
+      - run: uv python install 3.10
+      - run: |
+          uv sync --all-extras --all-groups
+          uv run pytest
