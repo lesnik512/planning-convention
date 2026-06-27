@@ -53,6 +53,19 @@ def test_main_defaults_to_repo_root_no_dirs(capsys: pytest.CaptureFixture[str]) 
     assert "_None._" in out
 
 
+def test_main_check_stderr_format_is_exact(tmp_path: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
+    write_bundle(tmp_path, "bad-name", design=VALID_SPEC)
+
+    code = index.main(["--check"], root=tmp_path)
+
+    err = capsys.readouterr().err
+    assert code == 1
+    assert err == (
+        "planning: 1 violation(s)\n"
+        "  - changes/bad-name: directory name is not 'YYYY-MM-DD.NN-slug'\n"
+    )
+
+
 def test_dunder_main_guard(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(sys, "argv", ["index.py"])
     with pytest.raises(SystemExit) as excinfo:

@@ -23,6 +23,20 @@ def test_format_row_superseded_by() -> None:
     assert index.format_row(row).endswith("_(superseded by new)_")
 
 
+def test_format_row_supersedes_and_superseded_by() -> None:
+    row = {
+        "slug": "a",
+        "path": "p",
+        "date": "d",
+        "summary": "s",
+        "supersedes": "old",
+        "superseded_by": "new",
+    }
+    line = index.format_row(row)
+    assert "_(supersedes old)_" in line
+    assert "_(superseded by new)_" in line
+
+
 def test_render_empty_sections() -> None:
     out = index.render([], [])
     assert "## Changes\n\n_None._" in out
