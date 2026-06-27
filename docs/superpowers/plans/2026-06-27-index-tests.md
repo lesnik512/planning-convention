@@ -15,7 +15,7 @@
 - **Behavior invariant:** the `index.py` refactor must preserve identical stdout, identical violation strings, and identical exit codes. Asserted by a snapshot test.
 - Coverage gate: `--cov-fail-under=100`. Intermediate per-file test runs use `--no-cov`; the final task verifies the full 100% gate.
 - Test code: annotate **all** function args and return types (`-> None`); `assert` is allowed (`S101` ignored for `tests/*`); docstrings not required (`D1` ignored).
-- Keep `index.py`'s existing `# ruff: noqa: INP001, D212` header line verbatim.
+- `index.py`'s former `# ruff: noqa: INP001, D212` header is removed entirely (user ruling 2026-06-27): `INP` is globally ignored, and the module docstring is rewritten to a D212-compliant first-line summary, so no noqa is needed.
 - Commits: conventional-commit style; do not mention Claude Code in messages.
 
 ---

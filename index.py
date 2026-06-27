@@ -1,6 +1,4 @@
-# ruff: noqa: D212  # the module docstring uses the D213 (second-line summary) style, so D212 is suppressed
-"""
-Generate the planning index from frontmatter.
+"""Generate the planning index from frontmatter.
 
 Run via ``just index``. Globs ``planning/changes/*/`` (each bundle's
 ``design.md``, falling back to ``change.md``) and ``planning/decisions/*.md``,
