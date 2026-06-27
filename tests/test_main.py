@@ -60,10 +60,7 @@ def test_main_check_stderr_format_is_exact(tmp_path: pathlib.Path, capsys: pytes
 
     err = capsys.readouterr().err
     assert code == 1
-    assert err == (
-        "planning: 1 violation(s)\n"
-        "  - changes/bad-name: directory name is not 'YYYY-MM-DD.NN-slug'\n"
-    )
+    assert err == ("planning: 1 violation(s)\n  - changes/bad-name: directory name is not 'YYYY-MM-DD.NN-slug'\n")
 
 
 def test_dunder_main_guard(monkeypatch: pytest.MonkeyPatch) -> None:
