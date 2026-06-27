@@ -1,7 +1,7 @@
 default: install lint test
 
 install:
-    uv sync --all-extras --all-groups --frozen
+    uv sync --all-extras --all-groups
 
 lint:
     uv run eof-fixer .
