@@ -49,6 +49,7 @@ isort.no-lines-before = ["standard-library", "local-folder"]
 "tests/*.py" = [
     "S101", # allow asserts
     "PLR2004", # allow magic-value comparisons (exit codes 0/1) in assertions
+    "PLR0913", # allow >5 args in test helpers
 ]
 
 [tool.pytest.ini_options]
