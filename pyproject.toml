@@ -46,6 +46,13 @@ isort.lines-after-imports = 2
 isort.no-lines-before = ["standard-library", "local-folder"]
 
 [tool.ruff.lint.extend-per-file-ignores]
+"index.py" = [
+    # index.py carries a file-level `# ruff: noqa: INP001` for consumers, where it
+    # lives in planning/ (a non-package) under a strict `select = ["ALL"]` config.
+    # Here it sits at the repo root with INP globally ignored, so INP001 never fires
+    # and the directive reads as unused — exempt only this file from RUF100.
+    "RUF100", # downstream-only noqa; unused in this repo
+]
 "tests/*.py" = [
     "S101", # allow asserts
     "PLR2004", # allow magic-value comparisons (exit codes 0/1) in assertions

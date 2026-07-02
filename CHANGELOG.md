@@ -3,6 +3,19 @@
 Versions are git tags. A consuming repo records the version it last applied in
 `planning/.convention-version`; on update, apply every entry newer than that.
 
+## 1.1.2 — 2026-07-02
+
+Consumer-facing: `index.py` now carries a file-level `# ruff: noqa: INP001`
+header. In a consumer the file lives at `planning/index.py` — a directory that
+is deliberately **not** a Python package — so under a strict ruff config
+(`select = ["ALL"]` without an `INP` ignore) it otherwise trips `INP001`
+("implicit namespace package"). The header lets consumers copy `index.py`
+verbatim and pass lint with **no `planning/__init__.py`** and **no ruff-config
+change** — which also keeps the vendored validator out of a `--cov=.` denominator.
+Pick it up via the §1 verbatim copy. In this canonical repo `index.py` sits at
+the root with `INP` globally ignored, so the directive is locally unused; a
+scoped `RUF100` per-file-ignore on `index.py` keeps the repo's own lint clean.
+
 ## 1.1.1 — 2026-06-27
 
 Internal: `index.py` now accepts an explicit `root` path
